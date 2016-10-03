@@ -1,8 +1,19 @@
-
-[ ![Codeship Status for pdsullivan/pdsullivan.github.io](https://codeship.com/projects/d0044ba0-4993-0132-225f-1e041e72ac74/status)](https://codeship.com/projects/46128)
-
-
-pdsullivan.github.io
+GitHub Repo Search Application
 ====================
 
-pdsullivan.github.io
+## Functional requirements
+* Provide a form that allows you to search for repositories on Github (using https://developer.github.com/v3/search/ )
+    * by name, optionally filtered by language and minimum number of stars
+    * by text contained in the title of an (open/closed) issue (e.g. you search for "octopress" and you get all the repositories that have issues containing that term)
+* Visualize the information returned by github by showing at least
+    * the name of the repo
+    * the avatar of the owner
+    * the creation date
+    * the (primary) language
+    * the number of stars and watchers
+    * the number of open issues
+    
+## TODO List
+
+==================== 
+##### by Anna Presnyakova
