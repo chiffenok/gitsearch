@@ -1,23 +1,47 @@
 angular.module('app', [])
-    .controller('gitHubDataController', ['$scope', '$http', function ($scope, $http) {
+    .controller('gitHubDataController', ['$scope', '$http', '$templateCache', function ($scope, $http, $templateCache) {
 
-        $scope.reposLoaded = false;
+
+
+
+
+        $scope.method = 'GET';
+        $scope.url = 'tetris';
+
+        $scope.fetch = function () {
+            $scope.code = null;
+            $scope.response = null;
+
+            $http({
+                method: $scope.method,
+                url: 'https://api.github.com/search/repositories?q=' + $scope.url,
+                cache: $templateCache
+            }).
+            then(function (response) {
+                $scope.status = response.status;
+                $scope.data = response.data;
+            }, function (response) {
+                $scope.data = response.data || 'Request failed';
+                $scope.status = response.status;
+            });
+        };
+
+        $scope.reposLoaded = false; //don't use it on this version
 
         $scope.userLoaded = false;
 
         $scope.username = "pdsullivan";
 
+        $scope.repoData = "";
 
-
-        var loadRepos = function () {
-            $http.get("https://api.github.com/search/repositories?q=angular2")
-                .success(function (data) {
-                    $scope.repoData = data;
-                    //loadRepos();
-                });
-        };
-
-        loadRepos();
+        //$scope.loadRepos = function () {
+        //    $http.get("https://api.github.com/search/repositories?q=tetris")
+        //        .success(function (data) {
+        //            $scope.repoData = data;
+        //            //loadRepos();
+        //        });
+        //};
+        //loadRepos("angular");
 
         //var loadRepos = function () {
         //    $http.get($scope.userData.repos_url)
