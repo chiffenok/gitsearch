@@ -18,6 +18,17 @@ app.controller('gitHubDataController', ['$scope', '$http', '$templateCache', '$r
     $scope.method = 'GET';
     $scope.url = 'tetris';
 
+
+
+    $scope.searchRepositories = function () {
+        $scope.repositories = $scope.fetch('repositories');
+    }
+
+    $scope.searchIssues = function () {
+        $scope.issues = $scope.fetch('issues');
+    }
+
+
     $scope.fetch = function (param) {
         $scope.code = null;
         $scope.response = null;
@@ -34,9 +45,10 @@ app.controller('gitHubDataController', ['$scope', '$http', '$templateCache', '$r
             $scope.data = response.data || 'Request failed';
             $scope.status = response.status;
         });
+
+        return $scope.data;
     };
 
-    console.log($routeParams);
 
     $scope.reposLoaded = false; //don't use it on this version
 
