@@ -1,11 +1,8 @@
 <html ng-app="app">
 
 <head>
-    <link rel="shortcut icon" href="http://www.pdsullivan.com/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-
-    <title>Patrick Sullivan GitHub</title>
+    <title>GitHub Search</title>
 
     <link rel="stylesheet" href="lib/custombootstrap.css" media="screen" title="no title" charset="utf-8">
     <link rel="stylesheet" href="lib/fontawesome/css/font-awesome.min.css" media="screen" title="no title" charset="utf-8">
@@ -16,15 +13,18 @@
 <body ng-controller="gitHubDataController">
 
     <div class="container">
-        <h1 class="text-center">test
-                </h1>
+        <h1 class="text-center">GitHub Search                </h1>
 
-        <div class="panel  panel-default">
+        <div class="panel panel-default">
             <div class="panel-heading">
+                <ul class="nav nav-tabs">
+                    <li role="presentation"><a href="#repositories">Repositories</a></li>
+                    <li role="presentation"><a href="#issues">Issues</a></li>
+                </ul>
 
                 <form class="form-inline">
                     <span>
-                            <h4><input type="text" ng-model="url" size="80" aria-label="URL" />
+                            <h4><input type="text" ng-model="url" aria-label="URL" />
                     <button id="submit" ng-click='fetch()'>button</button>
                     </h4>
                     </span>
@@ -32,12 +32,7 @@
 
             </div>
             <div class="panel-body">
-                <pre>http response data: {{data}}</pre>
-                <ul>
-                    <li ng-repeat="repo in data.items">
-                        {{repo.name}} - {{repo.description}}
-                    </li>
-                </ul>
+                <div ng-view></div>
                 <!--<div class="list-group">
                     <div ng-repeat="repo in repoData.items | filter:searchText " class="list-group-item ">
                         <div class="row">
@@ -76,7 +71,11 @@
 
 
     </div>
-    <script src="lib/angular/angular.min.js" charset="utf-8"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="app/app.js" charset="utf-8"></script>
 
 </body>
