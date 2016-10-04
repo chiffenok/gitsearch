@@ -18,13 +18,13 @@ app.controller('gitHubDataController', ['$scope', '$http', '$templateCache', '$r
     $scope.method = 'GET';
     $scope.url = 'tetris';
 
-    $scope.fetch = function () {
+    $scope.fetch = function (param) {
         $scope.code = null;
         $scope.response = null;
 
         $http({
             method: $scope.method,
-            url: 'https://api.github.com/search/repositories?q=' + $scope.url,
+            url: 'https://api.github.com/search/' + param + '?q=' + $scope.url,
             cache: $templateCache
         }).
         then(function (response) {

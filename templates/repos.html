@@ -1,6 +1,19 @@
-<pre>r http response data: {{data}}</pre>
-<ul>
-    <li ng-repeat="repo in data.items">
-        {{repo.name}} - {{repo.description}}
-    </li>
-</ul>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <form class="form-inline">
+            <span>
+                            <h4><input type="text" ng-model="url" aria-label="URL" />
+                    <button id="submit" ng-click='fetch("repositories")'>button</button>
+                    </h4>
+                    </span>
+        </form>
+    </div>
+    <div class="panel-body">
+        <pre>r http response data: {{data}}</pre>
+        <ul>
+            <li ng-repeat="repo in data.items">
+                Repo name: {{repo.name}}. Description: {{repo.description}}
+            </li>
+        </ul>
+    </div>
+</div>

@@ -15,59 +15,12 @@
     <div class="container">
         <h1 class="text-center">GitHub Search                </h1>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <ul class="nav nav-tabs">
-                    <li role="presentation"><a href="#repositories">Repositories</a></li>
-                    <li role="presentation"><a href="#issues">Issues</a></li>
-                </ul>
 
-                <form class="form-inline">
-                    <span>
-                            <h4><input type="text" ng-model="url" aria-label="URL" />
-                    <button id="submit" ng-click='fetch()'>button</button>
-                    </h4>
-                    </span>
-                </form>
-
-            </div>
-            <div class="panel-body">
-                <div ng-view></div>
-                <!--<div class="list-group">
-                    <div ng-repeat="repo in repoData.items | filter:searchText " class="list-group-item ">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <h4>
-                                        <small>
-                                            <span ng-if="repo.fork" class="octicon octicon-repo-forked"></span>
-                                            <span ng-if="!repo.fork" class="octicon octicon-repo"></span>
-                                        </small>
-                                        <a href="{{repo.html_url}}" target="_blank" >
-                                            {{repo.name}}
-                                        </a>
-                                        <small>{{repo.description}}</small>
-                                    </h4>
-
-                                <small>
-                                        <a href="{{repo.homepage}}" class="">
-                                            <i class="fa fa-link"></i> WebPage
-                                        </a>
-                                    </small>
-                            </div>
-                            <div class="col-md-4">
-                                <dl class="dl-horizontal">
-                                    <dt>Last Updated:</dt>
-                                    <dd>{{repo.updated_at | date : short : timezone}}</dd>
-                                    <dt>Created:</dt>
-                                    <dd>{{repo.created_at| date : short : timezone}}</dd>
-                                </dl>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
-
-            </div>
-        </div>
+        <ul class="nav nav-tabs">
+            <li role="presentation"><a href="#repositories">Repositories</a></li>
+            <li role="presentation"><a href="#issues">Issues</a></li>
+        </ul>
+        <div ng-view></div>
 
 
     </div>
