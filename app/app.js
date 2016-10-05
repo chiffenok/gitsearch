@@ -1,41 +1,30 @@
 var app = angular.module('app', ["ngRoute"]);
 
-app.config(function ($routeProvider) {
-    $routeProvider
-        .when("/repositories", {
-            templateUrl: "templates/repos.html"
-        })
-        .when("/issues", {
-            templateUrl: "templates/issues.html"
-        })
-        .otherwise({
-            templateUrl: "templates/repos.html"
-        });
-});
-
-app.controller('gitHubDataController', ['$scope', '$http', '$templateCache', '$routeParams', function ($scope, $http, $templateCache, $routeParams) {
+app.controller('gitHubDataController', ['$scope', '$http', function ($scope, $http) {
 
     $scope.method = 'GET';
-    $scope.url = 'tetris';
+    $scope.urlI = 'tetris';
+    $scope.urlR = 'css';
+
+    $scope.search = "tetris";
 
 
-
-    $scope.searchRepositories = function () {
-        $scope.repositories = $scope.fetch('repositories');
+    $scope.searchRepositories = function (url) {
+        $scope.repositories = $scope.fetch(url, 'repositories');
     }
 
-    $scope.searchIssues = function () {
-        $scope.issues = $scope.fetch('issues');
+    $scope.searchIssues = function (url) {
+        $scope.issues = $scope.fetch(url, 'issues');
     }
 
 
-    $scope.fetch = function (param) {
+    $scope.fetch2 = function (url, param) {
         $scope.code = null;
         $scope.response = null;
 
         $http({
             method: $scope.method,
-            url: 'https://api.github.com/search/' + param + '?q=' + $scope.url,
+            url: 'https://api.github.com/search/' + param + '?q=' + url,
             cache: $templateCache
         }).
         then(function (response) {
@@ -49,6 +38,20 @@ app.controller('gitHubDataController', ['$scope', '$http', '$templateCache', '$r
         return $scope.data;
     };
 
+    function fetch() {
+        $http.get("https://api.github.com/search/repositories?q=" + $scope.search)
+            .then(function (response) {
+                $scope.repositories = response.data;
+            });
+
+        $http.get("https://api.github.com/search/issues?q=" + $scope.search)
+            .then(function (response) {
+                $scope.issues = response.data;
+            });
+    }
+    $scope.$watch('search', function () {
+        fetch();
+    });
 
     $scope.reposLoaded = false; //don't use it on this version
 
