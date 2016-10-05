@@ -2,21 +2,21 @@ var app = angular.module('app', ["ngRoute"]);
 
 app.controller('gitHubDataController', ['$scope', '$http', function ($scope, $http) {
 
+    // old approach
     $scope.method = 'GET';
     $scope.urlI = 'tetris';
     $scope.urlR = 'css';
-
-    $scope.search = "tetris";
-
-
+    $scope.reposLoaded = false;
+    $scope.userLoaded = false;
     $scope.searchRepositories = function (url) {
-        $scope.repositories = $scope.fetch(url, 'repositories');
-    }
-
+            $scope.repositories = $scope.fetch(url, 'repositories');
+        }
+        //old approach
     $scope.searchIssues = function (url) {
-        $scope.issues = $scope.fetch(url, 'issues');
-    }
-
+            $scope.issues = $scope.fetch(url, 'issues');
+        }
+        //old approach
+    $scope.predicate = '-updated_at';
 
     $scope.fetch2 = function (url, param) {
         $scope.code = null;
@@ -38,6 +38,8 @@ app.controller('gitHubDataController', ['$scope', '$http', function ($scope, $ht
         return $scope.data;
     };
 
+    $scope.search = "tetris";
+
     function fetch() {
         $http.get("https://api.github.com/search/repositories?q=" + $scope.search)
             .then(function (response) {
@@ -52,14 +54,6 @@ app.controller('gitHubDataController', ['$scope', '$http', function ($scope, $ht
     $scope.$watch('search', function () {
         fetch();
     });
-
-    $scope.reposLoaded = false; //don't use it on this version
-
-    $scope.userLoaded = false;
-
-    $scope.username = "pdsullivan";
-
-    $scope.repoData = "";
 
     //$scope.loadRepos = function () {
     //    $http.get("https://api.github.com/search/repositories?q=tetris")
@@ -76,9 +70,5 @@ app.controller('gitHubDataController', ['$scope', '$http', function ($scope, $ht
     //            $scope.repoData = data;
     //        });
     //};
-
-
-    $scope.predicate = '-updated_at';
-
 
 }]);
