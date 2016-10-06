@@ -2,57 +2,44 @@ var app = angular.module('app', ["ngRoute"]);
 
 app.controller('gitHubDataController', ['$scope', '$http', function ($scope, $http) {
 
-    // old approach
-    $scope.method = 'GET';
-    $scope.urlI = 'tetris';
-    $scope.urlR = 'css';
-    $scope.reposLoaded = false;
-    $scope.userLoaded = false;
-    $scope.searchRepositories = function (url) {
-            $scope.repositories = $scope.fetch(url, 'repositories');
-        }
-        //old approach
-    $scope.searchIssues = function (url) {
-            $scope.issues = $scope.fetch(url, 'issues');
-        }
-        //old approach
-    $scope.predicate = '-updated_at';
+    $scope.searchR = "tetris";
+    $scope.searchI = "teta";
+    $scope.addSearch = false;
+    $scope.lang = "assembly";
+    $scope.stars = ">30";
 
-    $scope.fetch2 = function (url, param) {
-        $scope.code = null;
-        $scope.response = null;
-
-        $http({
-            method: $scope.method,
-            url: 'https://api.github.com/search/' + param + '?q=' + url,
-            cache: $templateCache
-        }).
-        then(function (response) {
-            $scope.status = response.status;
-            $scope.data = response.data;
-        }, function (response) {
-            $scope.data = response.data || 'Request failed';
-            $scope.status = response.status;
-        });
-
-        return $scope.data;
-    };
-
-    $scope.search = "tetris";
-
-    function fetch() {
-        $http.get("https://api.github.com/search/repositories?q=" + $scope.search)
+    function fetchR() {
+        var urlRLang = ($scope.lang != '' && $scope.addSearch) ? ("+language:" + $scope.lang) : "",
+            urlRStars = ($scope.stars != '' && $scope.addSearch) ? ("+stars:" + $scope.stars) : "",
+            urlR = "https://api.github.com/search/repositories?q=" + $scope.searchR + urlRLang + urlRStars;
+        $http.get(urlR)
             .then(function (response) {
                 $scope.repositories = response.data;
             });
+        console.log(urlR);
+    }
 
-        $http.get("https://api.github.com/search/issues?q=" + $scope.search)
+    function fetchI() {
+        var urlI = "https://api.github.com/search/issues?q=" + $scope.searchI;
+        $http.get(urlI)
             .then(function (response) {
                 $scope.issues = response.data;
             });
+        console.log(urlI);
     }
-    $scope.$watch('search', function () {
-        fetch();
+    $scope.$watchGroup(['searchR', 'addSearch', 'lang', 'stars'], function () {
+        if ($scope.searchR != '') {
+            fetchR();
+        } else {
+            $scope.repositories = '';
+        };
+    });
+    $scope.$watchGroup(['searchI'], function () {
+        if ($scope.searchI != '') {
+            fetchI();
+        } else {
+
+        };
     });
 
     //$scope.loadRepos = function () {

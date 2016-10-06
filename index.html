@@ -26,16 +26,33 @@
                     <div class="panel-heading">
                         <form class="form-inline">
                             <span>
-                            <h4><input type="text" ng-model="search" ng-model-options="{ debounce: 800 }" class="form-control" placeholder="Enter full movie name" autofocus />
-                    </h4>
-                    </span>
+                            <h4><input type="text" ng-model="searchR" ng-model-options="{ debounce: 800 }" class="form-control" placeholder="Enter full movie name" autofocus />
+                            <a ng-click="addSearch = !addSearch" id="addSearch">Additional parameters</a>
+                            <span ng-show="addSearch">
+                            <input type="text" ng-model="lang" ng-model-options="{ debounce: 800 }" class="form-control" placeholder="lang"  />
+                            <input type="text" ng-model="stars" ng-model-options="{ debounce: 800 }" class="form-control" placeholder="stars"  />
+                            </span>
+                            </h4>
+                            </span>
                         </form>
                     </div>
                     <div class="panel-body">
                         <pre>http response data: {{repositories}}</pre>
-                        <ul>
+                        <div ng-if="!repositories && searchR">
+                            Loading results...
+                        </div>
+                        <div ng-if="!searchR">
+                            Enter search phrase...
+                        </div>
+                        <ul ng-if="repositories.total_count>0">
                             <li ng-repeat="repo in repositories.items">
                                 Repo name: {{repo.name}}. Description: {{repo.description}}
+                                <br> the owner {{repo.owner.login}} <img height=40 width=40 ng-src="{{repo.owner.avatar_url}}" alt="">
+                                <br> the creation date {{repo.created_at}}
+                                <br> the (primary) language {{repo.language}}
+                                <br> the number of stars and watchers {{repo.stargazers_count}} - {{repo.watchers_count}}
+                                <br> the number of open issues {{repo.open_issues}}
+                                <br>
                             </li>
                         </ul>
                     </div>
@@ -46,14 +63,17 @@
                     <div class="panel-heading">
                         <form class="form-inline">
                             <span>
-                            <h4><input type="text" ng-model="search" ng-model-options="{ debounce: 800 }" class="form-control" placeholder="Enter full movie name" autofocus />
-                    </h4>
-                    </span>
+                            <h4><input type="text" ng-model="searchI" ng-model-options="{ debounce: 800 }" class="form-control" placeholder="Enter full movie name" autofocus />
+                            </h4>
+                            </span>
                         </form>
                     </div>
                     <div class="panel-body">
                         <pre>http response data: {{issues}}</pre>
-                        <ul>
+                        <div ng-if="!issues">
+                            Loading results...
+                        </div>
+                        <ul ng-if="issues.total_count>0">
                             <li ng-repeat="issue in issues.items">
                                 Title: {{issue.title}}. Body: {{issue.body}}
                             </li>
