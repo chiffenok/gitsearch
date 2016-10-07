@@ -4,10 +4,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GitHub Search</title>
 
-    <link rel="stylesheet" href="lib/custombootstrap.css" media="screen" title="no title" charset="utf-8">
-    <link rel="stylesheet" href="lib/fontawesome/css/font-awesome.min.css" media="screen" title="no title" charset="utf-8">
-    <link rel="stylesheet" href="lib/octicons/octicons/octicons.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="lib/site.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="lib/octicons/font/octicons.css" media="screen" title="no title" charset="utf-8">
 </head>
 
 <body ng-controller="gitHubDataController">
@@ -25,39 +24,62 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <form class="form-inline">
-                            <span>
-                            <h4><input type="text" ng-model="searchR" ng-model-options="{ debounce: 800 }" class="form-control" placeholder="Enter full movie name" autofocus />
-                            <a ng-click="addSearch = !addSearch" id="addSearch">Additional parameters</a>
-                            <span ng-show="addSearch">
-                            <input type="text" ng-model="lang" ng-model-options="{ debounce: 800 }" class="form-control" placeholder="lang"  />
-                            <input type="text" ng-model="stars" ng-model-options="{ debounce: 800 }" class="form-control" placeholder="stars"  />
-                            </span>
-                            </h4>
-                            </span>
+                            <div class="form-group">
+                                <h4><input type="text"  ng-model="searchR" ng-model-options="{ debounce: 800 }" class="form-control" placeholder="Enter repo name" autofocus /></h4></div>
+                            <div class="form-group"><a ng-click="addSearch = !addSearch" id="add-search-link"><span class="octicon"  ng-class="addSearch ? 'octicon-dash' : 'octicon-plus'"></span>Additional parameters</a></div>
+                            <div class="add-search" ng-show="addSearch">
+                                <div class="form-group">
+                                    <input type="text" ng-model="lang" ng-model-options="{ debounce: 800 }" class="form-control" placeholder="Language" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" ng-model="stars" ng-model-options="{ debounce: 800 }" class="form-control" placeholder="Number of stars" />
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <div class="panel-body">
-                        <pre>http response data: {{repositories}}</pre>
                         <div ng-if="!repositories && searchR">
-                            Loading results...
+                            <span class="octicon octicon-sync"></span> Loading results...
                         </div>
                         <div ng-if="!searchR">
-                            Enter search phrase...
+                            <span class="octicon octicon-search"></span> Enter search phrase...
                         </div>
                         <div ng-if="repositories.total_count==0">
-                            No results
+                            <span class="octicon octicon-circle-slash"></span> No results
                         </div>
-                        <ul ng-if="repositories.total_count>0">
-                            <li ng-repeat="repo in repositories.items">
-                                Repo name: {{repo.name}}. Description: {{repo.description}}
-                                <br> the owner {{repo.owner.login}} <img height=40 width=40 ng-src="{{repo.owner.avatar_url}}" alt="">
-                                <br> the creation date {{repo.created_at}}
-                                <br> the (primary) language {{repo.language}}
-                                <br> the number of stars and watchers {{repo.stargazers_count}} - {{repo.watchers_count}}
-                                <br> the number of open issues {{repo.open_issues}}
-                                <br>
-                            </li>
-                        </ul>
+                        <div class="list-group" ng-if="repositories.total_count>0">
+                            <div class="list-group-item" ng-repeat="repo in repositories.items">
+                                <div class="row item-result">
+                                    <div class="col-md-6">
+                                        <h3><small>
+                                            <span ng-if="repo.fork" class="octicon octicon-repo-forked"></span>
+                                            <span ng-if="!repo.fork" class="octicon octicon-repo"></span>
+                                        </small>
+                                        <a href="{{repo.html_url}}">{{repo.name}}</a></h3>
+                                        <div>Language: {{repo.language}}</div>
+                                        <div><img height=20 width=20 ng-src="{{repo.owner.avatar_url}}" alt="{{repo.owner.login}}"> Owner: {{repo.owner.login}}</div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <dl class="dl-horizontal numbers">
+                                            <dt><span class="octicon octicon-star"></span> </dt>
+                                            <dd>{{repo.stargazers_count}}</dd>
+                                            <dt><span class="octicon octicon-eye"></span> </dt>
+                                            <dd>{{repo.stargazers_count}}</dd>
+                                            <dt><span class="octicon octicon-issue-opened"></span> </dt>
+                                            <dd>{{repo.open_issues}}</dd>
+                                        </dl>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <dl class="dl-horizontal">
+                                            <dt>Last Updated:</dt>
+                                            <dd>{{repo.updated_at | date : short : timezone}}</dd>
+                                            <dt>Created:</dt>
+                                            <dd>{{repo.created_at| date : short : timezone}}</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -66,34 +88,53 @@
                     <div class="panel-heading">
                         <form class="form-inline">
                             <span>
-                            <h4><input type="text" ng-model="searchI" ng-model-options="{ debounce: 800 }" class="form-control" placeholder="Enter full movie name" autofocus />
+                            <h4><input type="text" ng-model="searchI" ng-model-options="{ debounce: 800 }" class="form-control" placeholder="Enter issue title" autofocus />
                             </h4>
                             </span>
                         </form>
                     </div>
                     <div class="panel-body">
-                        <pre>http response data: {{issues}}</pre>
                         <div ng-if="!issues && searchI">
-                            Loading results...
+                            <span class="octicon octicon-sync"></span> Loading results...
                         </div>
                         <div ng-if="!searchI">
-                            Enter search phrase...
+                            <span class="octicon octicon-search"></span> Enter search phrase...
                         </div>
                         <div ng-if="issues.total_count==0">
-                            No results
+                            <span class="octicon octicon-circle-slash"></span> No results
                         </div>
-                        <ul ng-if="issues.total_count>0">
-                            <li ng-repeat="issue in issues.items">
-                                Title: {{issue.title}}. Body: {{issue.body}}
-                                <br> the owner {{issue.user.login}} <img height=40 width=40 ng-src="{{issue.user.avatar_url}}" alt="">
-                                <br> the creation date {{issue.created_at}}
-                                <br> the state {{issue.state}}
-                                <br> the score {{issue.score}}
-                                <ul ng-if="issue.labels">
-                                    <li ng-repeat="label in issue.labels">{{label.name}}</li>
-                                </ul>
-                            </li>
-                        </ul>
+
+
+                        <div class="list-group" ng-if="issues.total_count>0">
+                            <div class="list-group-item" ng-repeat="issue in issues.items">
+                                <div class="row item-result">
+                                    <div class="col-md-6">
+                                        <h3><small>
+                                            <span ng-if="issue.state=='open'" class="octicon octicon-issue-opened"></span>
+                                            <span ng-if="issue.state=='closed'" class="octicon octicon-issue-closed"></span>
+                                        </small><a href="{{issue.html_url}}">{{issue.title}}</a></h3>
+                                        <div><img height=20 width=20 ng-src="{{issue.user.avatar_url}}" alt="{{issue.user.login}}"> Owner: {{issue.user.login}}</div>
+                                        <div class="issue-labels" ng-if="issue.labels">
+                                            <span ng-repeat="label in issue.labels" class="label label-default">{{label.name}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <dl class="dl-horizontal numbers">
+                                            <dt>Score: </dt>
+                                            <dd>{{issue.score | number:1}}</dd>
+                                        </dl>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <dl class="dl-horizontal">
+                                            <dt>Last Updated:</dt>
+                                            <dd>{{issue.updated_at | date : short : timezone}}</dd>
+                                            <dt>Created:</dt>
+                                            <dd>{{issue.created_at| date : short : timezone}}</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

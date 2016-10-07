@@ -9,8 +9,8 @@ app.controller('gitHubDataController', ['$scope', '$http', function ($scope, $ht
     $scope.stars = ">30";
 
     function fetchR() {
-        var urlRLang = ($scope.lang != '' && $scope.addSearch) ? ("+language:" + $scope.lang) : "",
-            urlRStars = ($scope.stars != '' && $scope.addSearch) ? ("+stars:" + $scope.stars) : "",
+        var urlRLang = ($scope.lang != '' && $scope.addSearch && $scope.lang) ? ("+language:" + $scope.lang) : "",
+            urlRStars = ($scope.stars != '' && $scope.addSearch && $scope.stars) ? ("+stars:" + $scope.stars) : "",
             urlR = "https://api.github.com/search/repositories?q=" + $scope.searchR + urlRLang + urlRStars;
         $http.get(urlR)
             .then(function (response) {
@@ -28,6 +28,7 @@ app.controller('gitHubDataController', ['$scope', '$http', function ($scope, $ht
         console.log(urlI);
     }
     $scope.$watchGroup(['searchR', 'addSearch', 'lang', 'stars'], function () {
+        $scope.repositories = '';
         if ($scope.searchR != '') {
             fetchR();
         } else {
@@ -35,6 +36,7 @@ app.controller('gitHubDataController', ['$scope', '$http', function ($scope, $ht
         };
     });
     $scope.$watchGroup(['searchI'], function () {
+        $scope.issues = '';
         if ($scope.searchI != '') {
             fetchI();
         } else {
