@@ -38,7 +38,7 @@ app.controller('gitHubDataController', ['$scope', '$http', function ($scope, $ht
         if ($scope.searchI != '') {
             fetchI();
         } else {
-
+            $scope.issues = '';
         };
     });
 
