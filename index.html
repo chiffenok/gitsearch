@@ -3,7 +3,6 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GitHub Search</title>
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="lib/site.css" media="screen" title="no title" charset="utf-8">
     <link rel="stylesheet" href="lib/octicons/font/octicons.css" media="screen" title="no title" charset="utf-8">
@@ -12,9 +11,7 @@
 <body ng-controller="gitHubDataController">
 
     <div class="container">
-        <h1 class="text-center">GitHub Search                </h1>
-
-
+        <h1 class="text-center">GitHub Search</h1>
         <ul class="nav nav-tabs" id="myTab">
             <li class="active"><a href="#repositories">Repositories</a></li>
             <li><a href="#issues">Issues</a></li>
@@ -36,6 +33,16 @@
                                 </div>
                                 <div class="form-group">
                                     <input type="text" ng-model="stars" ng-model-options="{ debounce: 800 }" class="form-control" placeholder="Number of stars" />
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control" ng-model="selectedSort" ng-options="item as item.name for item in itemsSort">
+                                        <option value="">sort</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control" ng-model="selectedOrder" ng-options="item as item.name for item in itemsOrder">
+                                        <option value="">order</option>
+                                    </select>
                                 </div>
                             </div>
                         </form>

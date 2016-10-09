@@ -25,11 +25,37 @@ app.controller('gitHubDataController', ['$scope', '$http', function ($scope, $ht
             name: '<'
         }
    ];
+    $scope.itemsSort = [
+        {
+            id: 1,
+            name: 'stars'
+        },
+        {
+            id: 2,
+            name: 'forks'
+        },
+        {
+            id: 3,
+            name: 'updated'
+        }
+   ];
+    $scope.itemsOrder = [
+        {
+            id: 1,
+            name: 'asc'
+        },
+        {
+            id: 2,
+            name: 'desc'
+        }
+   ];
 
     function fetchR() {
         var urlRLang = ($scope.lang != '' && $scope.addSearch && $scope.lang) ? ("+language:" + $scope.lang) : "",
             urlRStars = ($scope.stars != '' && $scope.addSearch && $scope.stars) ? ("+stars:" + $scope.selectedItem.name + $scope.stars) : "",
-            urlR = "https://api.github.com/search/repositories?q=" + $scope.searchR + urlRLang + urlRStars;
+            urlRSort = ($scope.selectedSort != '' && $scope.addSearch && $scope.selectedSort) ? ("&sort=" + $scope.selectedSort.name) : "",
+            urlROrder = ($scope.selectedOrder != '' && $scope.addSearch && $scope.selectedOrder) ? ("&order=" + $scope.selectedOrder.name) : "",
+            urlR = "https://api.github.com/search/repositories?q=" + $scope.searchR + urlRLang + urlRStars + urlRSort + urlROrder;
         $http.get(urlR)
             .then(function (response) {
                 $scope.repositories = response.data;
@@ -45,7 +71,7 @@ app.controller('gitHubDataController', ['$scope', '$http', function ($scope, $ht
             });
         console.log(urlI);
     }
-    $scope.$watchGroup(['searchR', 'addSearch', 'lang', 'stars', 'selectedItem'], function () {
+    $scope.$watchGroup(['searchR', 'addSearch', 'lang', 'stars', 'selectedItem', 'selectedSort', 'selectedOrder'], function () {
         $scope.repositories = '';
         if ($scope.searchR != '') {
             fetchR();
