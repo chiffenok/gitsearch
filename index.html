@@ -32,20 +32,28 @@
                                     <input type="text" ng-model="lang" ng-model-options="{ debounce: 800 }" class="form-control" placeholder="Language" />
                                 </div>
                                 <div class="form-group">
+                                    <select class="form-control" ng-init="selectedItem = selectedItem || itemsSigns[0]" ng-model="selectedItem" ng-options="item as item.name for item in itemsSigns"></select>
+                                </div>
+                                <div class="form-group">
                                     <input type="text" ng-model="stars" ng-model-options="{ debounce: 800 }" class="form-control" placeholder="Number of stars" />
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="panel-body">
-                        <div ng-if="!repositories && searchR">
-                            <span class="octicon octicon-sync"></span> Loading results...
-                        </div>
-                        <div ng-if="!searchR">
-                            <span class="octicon octicon-search"></span> Enter search phrase...
-                        </div>
-                        <div ng-if="repositories.total_count==0">
-                            <span class="octicon octicon-circle-slash"></span> No results
+                        <div class="search-info">
+                            <div ng-if="!repositories && searchR">
+                                <span class="octicon octicon-sync"></span> Loading results...
+                            </div>
+                            <div ng-if="!searchR">
+                                <span class="octicon octicon-search"></span> Enter search phrase...
+                            </div>
+                            <div ng-if="repositories.total_count==0">
+                                <span class="octicon octicon-circle-slash"></span> No results
+                            </div>
+                            <div ng-if="repositories.total_count>0">
+                                Number of results <span class="badge">{{repositories.items.length}}</span>
+                            </div>
                         </div>
                         <div class="list-group" ng-if="repositories.total_count>0">
                             <div class="list-group-item" ng-repeat="repo in repositories.items">
@@ -94,16 +102,20 @@
                         </form>
                     </div>
                     <div class="panel-body">
-                        <div ng-if="!issues && searchI">
-                            <span class="octicon octicon-sync"></span> Loading results...
+                        <div class="search-info">
+                            <div ng-if="!issues && searchI">
+                                <span class="octicon octicon-sync"></span> Loading results...
+                            </div>
+                            <div ng-if="!searchI">
+                                <span class="octicon octicon-search"></span> Enter search phrase...
+                            </div>
+                            <div ng-if="issues.total_count==0">
+                                <span class="octicon octicon-circle-slash"></span> No results
+                            </div>
+                            <div ng-if="issues.total_count>0">
+                                Number of results <span class="badge">{{issues.items.length}}</span>
+                            </div>
                         </div>
-                        <div ng-if="!searchI">
-                            <span class="octicon octicon-search"></span> Enter search phrase...
-                        </div>
-                        <div ng-if="issues.total_count==0">
-                            <span class="octicon octicon-circle-slash"></span> No results
-                        </div>
-
 
                         <div class="list-group" ng-if="issues.total_count>0">
                             <div class="list-group-item" ng-repeat="issue in issues.items">

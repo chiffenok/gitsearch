@@ -6,11 +6,29 @@ app.controller('gitHubDataController', ['$scope', '$http', function ($scope, $ht
     $scope.searchI = "teta";
     $scope.addSearch = false;
     $scope.lang = "assembly";
-    $scope.stars = ">30";
+    $scope.stars = "30";
+    $scope.itemsSigns = [
+        {
+            id: 1,
+            name: '>='
+        },
+        {
+            id: 2,
+            name: '>'
+        },
+        {
+            id: 3,
+            name: '<='
+        },
+        {
+            id: 4,
+            name: '<'
+        }
+   ];
 
     function fetchR() {
         var urlRLang = ($scope.lang != '' && $scope.addSearch && $scope.lang) ? ("+language:" + $scope.lang) : "",
-            urlRStars = ($scope.stars != '' && $scope.addSearch && $scope.stars) ? ("+stars:" + $scope.stars) : "",
+            urlRStars = ($scope.stars != '' && $scope.addSearch && $scope.stars) ? ("+stars:" + $scope.selectedItem.name + $scope.stars) : "",
             urlR = "https://api.github.com/search/repositories?q=" + $scope.searchR + urlRLang + urlRStars;
         $http.get(urlR)
             .then(function (response) {
@@ -27,7 +45,7 @@ app.controller('gitHubDataController', ['$scope', '$http', function ($scope, $ht
             });
         console.log(urlI);
     }
-    $scope.$watchGroup(['searchR', 'addSearch', 'lang', 'stars'], function () {
+    $scope.$watchGroup(['searchR', 'addSearch', 'lang', 'stars', 'selectedItem'], function () {
         $scope.repositories = '';
         if ($scope.searchR != '') {
             fetchR();

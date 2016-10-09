@@ -60,3 +60,11 @@ body {
 .issue-labels span {
     margin-right: 0.6em;
 }
+
+.search-info {
+    margin-bottom: 1em;
+}
+
+.panel-heading form {
+    margin-bottom: 0;
+}
