@@ -27,12 +27,24 @@ body {
     h3 {
         margin-top: 0;
     }
-    .numbers .dl-horizontal {
+    dl {
+        clear: both;
+    }
+    .numbers {
         dt {
-            width: 60px;
+            width: 20px;
+            float: left;
         }
         dd {
-            margin-left: 80px;
+            margin-left: 0;
+            width: 3em;
+            float: left;
+        }
+    }
+    .dates {
+        dt {
+            margin-right: 1em;
+            float: left;
         }
     }
 }
@@ -41,5 +53,29 @@ body {
     margin-top: 0.7em;
     span {
         margin-right: 0.6em;
+    }
+}
+
+@media (min-width: 1000px) {
+    .item-result {
+        dl {
+            clear: none;
+        }
+        .numbers. {
+            dt {
+                width: 80px;
+                float: none;
+            }
+            dd {
+                margin-left: 90px;
+                float: none;
+            }
+        }
+        .dates {
+            dt {
+                margin-right: 0;
+                float: none;
+            }
+        }
     }
 }
